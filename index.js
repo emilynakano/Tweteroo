@@ -7,17 +7,33 @@ server.use(cors())
 const pessoas = [];
 const tweets = [];
 
+
 server.post('/sign-up', (req, res) => {
     const pessoa = req.body;
     pessoas.push(pessoa);
     res.send("OK");
 })
 server.post('/tweets', (req, res) => {
-    const tweet = req.body;
+
+    const tweet = {
+		username: "",
+		avatar: "",
+	    tweet: ""
+	}
+    tweet.username = req.body.username;
+    tweet.tweet = req.body.tweet;
+    tweet.avatar = pessoas[pessoas.length - 1].avatar;
     tweets.push(tweet);
     res.send("OK");
 })
-
-console.log("oi")
+server.get('/tweets', (req, res) => {
+    for(let i = 0; i < tweets.length; i ++) {
+        tweets[i] = tweets[tweets.length - (i + 1)]
+    }
+    if(tweets.length > 10) {
+        tweets.length = 10;
+    }
+    res.send(tweets);
+})
 
 server.listen(5000)
