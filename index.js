@@ -27,13 +27,12 @@ server.post('/tweets', (req, res) => {
     res.send("OK");
 })
 server.get('/tweets', (req, res) => {
-    for(let i = 0; i < tweets.length; i ++) {
-        tweets[i] = tweets[tweets.length - (i + 1)]
-    }
+    tweets.reverse();
     if(tweets.length > 10) {
         tweets.length = 10;
     }
     res.send(tweets);
+    tweets.reverse();
 })
 
 server.listen(5000)
